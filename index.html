@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>San Pablo Cafe Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap');
+
+  :root{
+    box-sizing: border-box;
+    --cream: #F4E4CE;
+    --paper: #FBF0DF;
+    --ink: #3A2211;
+    --ink-soft: #7A5233;
+    --coffee-deep: #4A2412;
+    --coffee-mid: #8C4A1F;
+    --moss: #C1652B;
+    --moss-deep: #9E4A1C;
+    --gold: #D98A2B;
+    --line: #E3BF8E;
+    --card-bg: #FDF6EA;
+    --shadow: none;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --cream: #201409;
+      --paper: #29190C;
+      --ink: #F6E4C8;
+      --ink-soft: #D9AE7C;
+      --coffee-deep: #F6E4C8;
+      --coffee-mid: #E7A85C;
+      --moss: #E38A3C;
+      --moss-deep: #C46F2A;
+      --gold: #EFA94A;
+      --line: #4A2F17;
+      --card-bg: #2E1C0E;
+    }
+  }
+  :root[data-theme="dark"]{
+    --cream: #201409;
+    --paper: #29190C;
+    --ink: #F6E4C8;
+    --ink-soft: #D9AE7C;
+    --coffee-deep: #F6E4C8;
+    --coffee-mid: #E7A85C;
+    --moss: #E38A3C;
+    --moss-deep: #C46F2A;
+    --gold: #EFA94A;
+    --line: #4A2F17;
+    --card-bg: #2E1C0E;
+  }
+  html{ scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Work Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3{ font-family:'Fraunces', Georgia, 'Times New Roman', serif; font-weight:600; margin:0; color:var(--coffee-deep); }
+  a{ color:inherit; }
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header.site{
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40;
+    background: color-mix(in srgb, var(--cream) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding: 16px 24px; max-width:1080px; margin:0 auto; }
+  .mark{ display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:600; font-size:1.15rem; color:var(--coffee-deep); text-decoration:none; }
+  .mark svg{ width:28px; height:28px; flex-shrink:0; }
+  .nav-links{ display:flex; gap:28px; font-size:0.95rem; }
+  .nav-links a{ text-decoration:none; color:var(--ink-soft); border-bottom:1px solid transparent; padding-bottom:2px; transition: color .15s, border-color .15s; }
+  .nav-links a:hover{ color:var(--coffee-deep); border-color:var(--gold); }
+
+  /* Hero */
+  .hero{
+    padding: 64px 0 48px; border-bottom:1px solid var(--line);
+    background: radial-gradient(ellipse 900px 500px at 15% 0%, color-mix(in srgb, var(--gold) 16%, transparent), transparent 70%);
+  }
+  .hero-grid{ display:grid; grid-template-columns: 1.3fr 0.9fr; gap:48px; align-items:center; }
+  .hero h1{ font-size: clamp(2.3rem, 5vw, 3.6rem); line-height:1.08; letter-spacing:-0.01em; }
+  .hero .lede{ margin-top:18px; font-size:1.1rem; color:var(--ink-soft); max-width:46ch; }
+  .hero .stats{ display:flex; gap:28px; margin-top:28px; flex-wrap:wrap; }
+  .stat{ }
+  .stat b{ display:block; font-family:'Fraunces',serif; font-size:1.5rem; color:var(--coffee-deep); font-weight:600; }
+  .stat span{ font-size:0.85rem; color:var(--ink-soft); }
+  .hero-art{ display:flex; justify-content:center; }
+  .hero-art svg{ width:100%; max-width:300px; height:auto; }
+
+  /* Toolbar */
+  .toolbar{ padding: 28px 0 20px; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between; }
+  .search{ position:relative; flex:1; min-width:220px; max-width:360px; }
+  .search input{
+    width:100%; padding:11px 14px 11px 38px; border-radius:8px; border:1px solid var(--line);
+    background: var(--card-bg); color:var(--ink); font-family:inherit; font-size:0.95rem;
+  }
+  .search input:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+  .search svg{ position:absolute; left:12px; top:50%; transform:translateY(-50%); width:16px; height:16px; color:var(--ink-soft); }
+  .chips{ display:flex; gap:8px; flex-wrap:wrap; }
+  .chip{
+    border:1px solid var(--line); background: var(--card-bg); color:var(--ink-soft);
+    padding:8px 16px; border-radius:999px; font-size:0.88rem; cursor:pointer;
+    font-family:inherit; transition: background .15s, color .15s, border-color .15s;
+  }
+  .chip:hover{ border-color:var(--gold); color:var(--coffee-deep); }
+  .chip[aria-pressed="true"]{ background: var(--coffee-deep); color: var(--paper); border-color: var(--coffee-deep); }
+  .chip:focus-visible, .icon-btn:focus-visible, a:focus-visible, input:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  /* Directory */
+  .directory{ padding-bottom: 80px; }
+  .entry-count{ font-size:0.9rem; color:var(--ink-soft); margin-bottom: 8px; }
+  .entry{
+    display:grid; grid-template-columns: 64px 1fr auto; gap:20px;
+    padding: 28px 0; border-top:1px solid var(--line);
+  }
+  .entry.has-photo{ grid-template-columns: 64px 1fr 168px auto; }
+  .entry:last-child{ border-bottom:1px solid var(--line); }
+  .photo{
+    width:100%; aspect-ratio: 142 / 193; border-radius:14px; overflow:hidden;
+    box-shadow: 0 1px 0 var(--line);
+  }
+  .photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .mono{
+    width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-weight:600; font-size:1.3rem; color:var(--paper);
+  }
+  .body h3{ font-size:1.35rem; }
+  .body .desc{ margin-top:6px; color:var(--ink-soft); font-size:0.97rem; max-width:58ch; }
+  .addr{ margin-top:12px; display:flex; align-items:flex-start; gap:6px; font-size:0.9rem; color:var(--ink-soft); }
+  .addr svg{ width:15px; height:15px; margin-top:3px; flex-shrink:0; color:var(--moss); }
+  .addr a{ text-decoration:underline; text-decoration-color: var(--line); text-underline-offset:3px; }
+  .menu-groups{ margin-top:16px; display:flex; flex-direction:column; gap:8px; }
+  .menu-group{ font-size:0.88rem; }
+  .menu-group .label{ color: var(--moss); font-weight:600; margin-right:6px; }
+  .menu-group .items{ color: var(--ink-soft); }
+  .side{ text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:8px; min-width:130px; }
+  .status{ display:flex; align-items:center; gap:6px; font-size:0.85rem; }
+  .dot{ width:8px; height:8px; border-radius:50%; background: var(--moss); flex-shrink:0; }
+  .closes{ font-size:0.82rem; color:var(--ink-soft); }
+  .rating{ display:flex; align-items:center; gap:5px; font-size:0.85rem; color:var(--ink-soft); }
+  .rating svg{ width:14px; height:14px; color:var(--gold); }
+  .price{ font-size:0.82rem; color:var(--ink-soft); }
+  .directions{
+    margin-top:4px; font-size:0.85rem; color:var(--coffee-deep); text-decoration:none;
+    border-bottom:1px solid var(--gold); padding-bottom:1px; white-space:nowrap;
+  }
+  .directions:hover{ color:var(--gold); }
+  .no-data{ font-size:0.8rem; color:var(--ink-soft); font-style:italic; }
+
+  @media (max-width: 720px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-art{ order:-1; max-width:180px; margin:0 auto; }
+    .entry{ grid-template-columns: 48px 1fr; }
+    .entry.has-photo{ grid-template-columns: 48px 1fr; }
+    .entry.has-photo .photo{ grid-column: 1 / -1; max-width:220px; margin-top:4px; }
+    .mono{ width:44px; height:44px; font-size:1.05rem; }
+    .side{ grid-column: 1 / -1; align-items:flex-start; text-align:left; flex-direction:row; flex-wrap:wrap; gap:14px; margin-top:6px; }
+  }
+
+  .empty{ padding:60px 0; text-align:center; color:var(--ink-soft); display:none; }
+  .empty.show{ display:block; }
+
+  footer{ border-top:1px solid var(--line); padding: 32px 0 48px; margin-top: 0; }
+  footer .wrap{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; font-size:0.85rem; color:var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <a class="mark" href="#top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8h13a3 3 0 0 1 0 6h-1"/><path d="M4 8v7a4 4 0 0 0 4 4h4a4 4 0 0 0 4-4v-1"/><path d="M7 3c-.6 1 -.6 1.8 0 2.8M11 3c-.6 1 -.6 1.8 0 2.8"/></svg>
+      San Pablo Cafe Guide
+    </a>
+    <nav class="nav-links">
+      <a href="#directory">Cafes</a>
+      <a href="#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>Where to sit down for a good cup in San Pablo.</h1>
+        <p class="lede">The City of Seven Lakes has a growing list of cafes worth the trip &mdash; from milk tea spots for studying to slow, hand-poured coffee tucked behind quiet streets. This guide keeps track of them so you don't have to.</p>
+        <div class="stats">
+          <div class="stat"><b>5</b><span>cafes listed</span></div>
+          <div class="stat"><b>3</b><span>neighborhoods</span></div>
+          <div class="stat"><b>4.9</b><span>average rating</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 200 220" fill="none">
+          <path d="M40 90h110a8 8 0 0 1 0 16h-8" stroke="#4B5D3A" stroke-width="4" stroke-linecap="round"/>
+          <path d="M40 90v55a26 26 0 0 0 26 26h58a26 26 0 0 0 26-26v-6" stroke="#3B2618" stroke-width="4" stroke-linecap="round"/>
+          <path d="M62 90c-6-10-6-18 0-30M90 90c-6-10-6-18 0-30M118 90c-6-10-6-18 0-30" stroke="#B98232" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 10"/>
+          <circle cx="40" cy="90" r="0" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap toolbar">
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="Search a cafe or a drink..." aria-label="Search cafes or menu items">
+    </div>
+    <div class="chips" role="group" aria-label="Filter by type">
+      <button class="chip" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" data-filter="coffee" aria-pressed="false">Coffee</button>
+      <button class="chip" data-filter="milktea" aria-pressed="false">Milk tea</button>
+      <button class="chip" data-filter="food" aria-pressed="false">Food &amp; snacks</button>
+    </div>
+  </section>
+
+  <section class="wrap directory" id="directory">
+    <p class="entry-count" id="count"></p>
+    <div id="list">
+
+      <article class="entry has-photo" data-tags="coffee food" data-name="CDC 1028 Cafe" data-search="cdc 1028 cafe caramel macchiato spanish latte mocha oreo frappe classic brewed coffee crispy pork kare-kare barbecue liempo mixed seafood cajun pastas pizzas croffles croissants bibingka">
+        <div class="mono" style="background:var(--coffee-mid)">C</div>
+        <div class="body">
+          <h3>CDC 1028 Cafe</h3>
+          <p class="desc">A spacious, nature-surrounded spot built for casual meals or a whole group hanging out.</p>
+          <div class="addr">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span><a href="https://www.google.com/maps/search/?api=1&query=39C6%2BWRH%2C%20San%20Pablo%20City%2C%20Laguna" target="_blank" rel="noopener">39C6+WRH, San Pablo City, Laguna</a></span>
+          </div>
+          <div class="menu-groups">
+            <div class="menu-group"><span class="label">Beverages</span><span class="items">Caramel Macchiato, Spanish Latte, Mocha Oreo Frappe, Classic Brewed Coffee</span></div>
+            <div class="menu-group"><span class="label">Food &amp; snacks</span><span class="items">Crispy Pork Kare-Kare, Barbecue Liempo, Mixed Seafood Cajun, Pastas, Pizzas, Croffles, Croissants, Bibingka</span></div>
+          </div>
+        </div>
+        <div class="photo"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADBAI4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD4yop0aNI6oilmYgKAOSfSvSvCXhWDTI0vb828t4eiOcrF+Hc+/wCVc2KxUMPG8t+iOrC4SeJlaO3VnLaL4P1XUEE0yfY7fGd8i/MR7L/jiurl8D+H47aAW7ajPNt/fSSuqqzY6IqjIHXqxzx079FO6eWSGjY/if6U1UUorARtnnAya8KWYYio73svI+ghluGpra78zOsvCXg+O3hFxpOo3dyRufbemONTuPyldhJ4A5DDr7V0Uvwt8MXUFhCkFtp1yYpFmH2qWVnnXe2wjJCfIm7nGe2cVkAotxCMMBI2PTFeueE4nltLWa0mktJB5a3KxR4Eyxn5ec5G7+Pj5vXkiqeJq8t+Z/ecmIwcH8ETyF/A3hSe+jmS0On6aXcxteXhDz43NsHzYB2DHU/My/SuZn8N6JB5d3Ag1GASKJEjMiKWDHdCpPzEkBecYAbPXaG9Z+J3hyzjVJ5Lq6hkih2/a2jzEo3D5TwMtgnaqDjknA+ZeVa50bT9S0adNMuLyWKK2dSL1diMoViSvlZ3Erk56g9AT8u1LEScfib+Z5Fam6cuWRzI8F6ffajNHp9uSsSEERmRkLltue7bV3Ak85C9OtSXPhnwhM76Vpk6veh0ikuXaYqjgfvNgC7TyDyWIx0zkGuovWtbLXtQsm1ffKtxJDdpbRs2IwWO0kDaoYoF27j94cHacY3hhU0bULvVbx0imWxE0TbE4Z54kVipIBxvDAcgY5BClTcatRq935EtJaFS/wDBmmG5ngtNCu7aOBY4ZLi9u/LVJgu9yT90grswSU+82AeCvKX2i6dDftb2032qPy9yzoGVGO4HjPONueoHJ9AM+mX1iF0treziWAX93IjqrhnKoiZ3EbUAJYnYMbcAncQMZEvh4W0UgdSLoqtwsTRllkRQyoeCDl3kQY+9+8B4xzdPETT95icVbQr2HgXT9N0Qap4isXjlcmSCykZ0lmTJ2kLkHy2OMycKBjBZjtrf8WeAvCWlyavJaaS72sSiK2uHvX8pJJB+7bg5cLuU47hXPIRhUvhjwxaajdPFHeyXVzdTHM8isq/Z0AO8ucdi7MSMAxgcVrw6iNV13wVcRKV0BJ7dAUZ2bdvVPLlJPPlFyoYqMA8cYNcdSvVdTSTt/X+R004xUdUeYN4Y0mCLY1tcTpEC0tyrnDYVnONpZVwuMr8x+U8rWZqujWNg7232UyXHy5bzDtQEA44PLepzjqB0zXYXkdtFqlrp0cZNnODJOJmOWU7SgKjp8oPOOVkOM8V3HwP+HaeOPEjSanZtewOjz+W8zRrhflyxBDMASFAUg5IJ4BBt4udJc8m35Lr6f5Dp0ozdtEeNWfhq1ulWZ3W1tFZRLMzFiuewXgueOg9Rkgc1DHoFkGc3Uz28YOA/llsegIB4LYJ6nGPy99+NXhHT/AmoR2w0nT4tKuUee0eRpCyOI4wyMxYswGN4UjPzkKeeOD0wz6xd3D6Sl3YrDgSW0DCRlJJxkleTxyQOpGScCsqeZ1ZxdTVR/r11KqYaMXY4n4eaShV9VuFU4ysAb9W/p+ddltZlISVAxHHGcVn2YjtLOK1jBCxIFH4d6sRXLZ74/CniJyq1HNnpYZKlBQG3cd7FbyytdR4VCeYQM4/Giw+2zQJL/aFsUcZUpGWBH5jn2rofD+v3GlSXOLS1vLe8tZLW5t7qMPHLE45BwQQQQrAgggqKpR/Z440gihVEUYUKQAKlTSjtqW7uW+hlX5uobmxtlv4vOuptsRMJVV5AyTk92Hb+Vep6Do+trZRBvEGmxybRuAtpXAPcZ85c/XA+lYXhuWyt0nW607TbsTIFR7q3WSS3YEESRP8AeRgR2OD3B4qO21qz8O+JJraNLsw3UcT7kbegkdnByCep2Z7ng1qlzxSitfQy5mpPmfoafi2OO51Wz8K3bjV9amhluYCJHiiK4wiqo3HcfLkADPwcnPzBVo6qkFrq2raro8R1O6QPMLkIVtbfDEgg5/eNhTjouQDyCSOluZLW92XFxbaW2DhZ/Jj+2H5Wyu9gSseW5XjduYdM4mvZLG5tIIry4lFlCVUWseCJWyoTdg5bBAATBDE89MGYwUntb/P/ACOKrScm5HkOg2s2lanNcjTY5XuLYxyosckqMxbzcbcAk/IBglQD/eCsKoeJ5GudUe+1ON1E7oQjSAyz9ACQuQqkgkAAKOgzgV0fiC1vS0gmukgsbje01hGMnez7ymQRukGxUwwQ8NgHDOeXv4xfPdajd3KyI04idUceayls/LHknHQZOASRk5ya64NN8zPPkraHVXHjK4ttMt9I8PWDS625e1Dm3EpiQxhWZEDFVZwuMgnaof5Rwz5mpeHLSxa/trq6EskCyw/aXZYvMkIILsSFDDzGGCSSFHfbVfwjcXVnr2n3Vjd+TbxQRz3TTKFizHHlUDFWIODjdydpOc8k29a16+1LT7oNp0dnp0asbcM7SS5wS0knJDEI23kYUk7dpyKTi46Q+ZSknv0O51fVJ9M8E20d4LRb7WETTrq58nyBDFkb4/lxu83cWYgYUNjOcbfN9HvL/SCHhlDxxXq3aJJIzLczRkhSAB93uSMZ4yQdoXprLSJ77RNO04aa5ma6nD+ZMJJJGX5ieu1CNxJAJx3YsDivpwsWlnvrhGh0jS5DaxG3xLFJIz7y6k9sMrbQDvxjnIB5oe5zR3N5Nys0cvbfaori313UbiXz2v43BnVvLVm3OMooz8+Oi8YI67hj1n4N/E6Hwj4guLu8Et5ZtGFzFGd0cSEiMgHHye3yn95n5iOfJfFsx1K8t47KdWgXfFHLIVBnkJy7cgMA2Rt3cnaejEinaimoW+mR2Vw7eY6LJcF0Addu4IDgZHyhTgk8k+uKK9CNVRctH+X9fmVSqclz0L42fFCH4h65YJa20lvZWSvMskvyu8vlgqCoJCgFAOpJyeRnFeZ2Gn34lY205gnYHe0gGAAQMHjGc59DweMVf8PaPc6xr2m2VrIoMixvlJckAKAu7AAB4c9c/Q8n6I0LwP4f0yySFrGK4kx80kgySfb0Fb0MOqUbR2+8zq1uZ3Z4jq2l+TOfIDLjqjNkj26DnHH1BrO8t0YBsqfQ5rvvF1o86tcHylntox9oC5JJZ2C8+m3ZjPOCQcYAPNLtZdsiBx79RXFCalE0p4qVN2lqipHHJsHORj1/+tU0S5I3ZBFauoaRNE5azgmmha2M6bxh/LBAL+/UEgdAfTmsR22kZKAZ9TXOqnU9mEY1HaLOis5PLRRnOfVjWbqWmLHLPcaZpltPPdzLJevPdFUx5obeVJ+Yg/3RkdQDzVe3mZV+/wDqaluTPcqgh1KW125z5QXLfXcp/StKeL5JaP8Ar5Gs8E5rY0NB1OWW51C3mvvPe2uNijzAcKVDL0we5BJ7qfQ10Nx5cvh+S5uLWUxAALcF5CqyCReP3akoGUsuTjPzbTuAWvN9Ctr1heA6neW2y7lUMEiXzuc+ZzHznPX2A6AVcSHVP7VkWbXNTNtHaiT7R+5VEwWzHuZQpYhcqowT0GTit6k4ym4xl+ZzuhL2V5Ky/rzI9QuZHiudX1Ke52mM/ZYPKEQjbd5ZcKHHAQkAHIJ8wY4LVFd7W0j+0ZYJYjMvmI0uAi5cMyAY2hcblPyjdgKoO050td1LVbmyke9tJrp7qaOKyW5RYpJXj8wPIRGqjKllUHggfKCSpIoteQy6c8txf297JEqPJC6s2GjUJuLDhlMkhzjJ4TopJXrjzWWh4DUb7kvhCSS810aXcQzjSbeJknuoIxuYGBlwxyBtCD7vzdDgnHGjr8c+ghdNvEnFxbxI8hjwCrh8/ewQIkMnHHLDAPpHeaubiKzi0B/stml49zqE22NR5/ySNGAOZFBAHmEE44HyDBsaS0uq+H5YdU8972OF5oxNNiP5Y5Gj8tBnKoqHIwvzEBieAJlJJ3YJXWg/T7m4XwpCkDxGecSySF5Nk1tESI5E2DcULBM7gvygsAGZSa5oTWz6ymkNHJZacsUjXCW7lgZVUkHHHOYwpU453fdyVGungzV9tneLZabu1GOSSGV5izNIVZcOHBBwGJJ5B2jkHOQtLp2qy2mmaa015pSTLcXcluJPMlEJM4ZX25ZGG0A7gSzNn+8oOEruL1LkpRSuZd9YWQu7W3v3WwiZFLo8JlEasNsZ42/3mYkEjJGASAKoalqUV2n2S1fZarG0aBQoLsoZfnI6AIOB8xO7tuAG9f2XiC3kNvqTiUtmO3nlTc2S8RMjP1Od2MnLAkjqTnIs9Nuor64e0iVbNAkcm5yFKvFliGP3C6owyQcbhwCMi4yg43vcUk07WOp+D9so8dWl26OZLm1EsjsFAaTc+du3jGT+uO1e/V4x8OTYxeJdIEIeOQK6SRtn5MopXBIHB+Y/dX5t/Fez1vF3imZPc8g1e2lOuXNot7GUnADux2ptwGA5JwBgAc9hXOSw7WOK6vXBMbgR3BcmNAqBuoXqPw54+tZUdg91PsRchVaRucABRk84OM4xk8ZIzXhw0jcx5uaWhPZSrJpVvZzXBhtmjkE0iwAkKx+Q5OflEi4LcFd5x1wfOfEzTRvB5cjx53btpIz0xXpt9FczayI7kwYmjhiK26RqvllV2qOApwMAH2HNcF4wtW8+23nbuLElgeh28+tPDtRmdVWo7pp7aHNR3N2OlzP/AN/DUy3t4P8Al6uP+/rf41IbKRFDMuMsVwTyCMZyOo6/5xTfs7Z6V23jfYSrT7sd9vvccXdz/wB/m/xq3pd7q32uF7bULyF1lULMssn7tjnByuT2J454NRJps/liaRXWDbvZlXcQu7bnA6c4HOOo55FaGk2toHZrSNrm4S3eYeavBKMTt2jO3KjP3u+3PPKdrXSNac5SklKWhtW8cN3dRyz3F2b2VFWW6uJhKqDb878rvwpLSEhsYGCMZIpQ6ZYQXVkdPLKl5G86M6+Y42pIpldVBGzAkAh5JDNvPRa5e1+13FvbW8ru7tt++3JY+pP1xzW7HLqVrZ280e+F7FWxO8n3ypLLEhxz/rB8oJGGBbCjjopprS5FScZO8VYu22oJaGOxs9MNo+7c7iNVyu75vkYMXO9SvzO6qV+UAqGHtGhaXpdjYGKWU/ajCFnldstCjLsVVyuFXlsKrcDOTgHb4XG1jHrdmIXmR4C0LxyqNqqF2qodGJbrgnA6DHHT2nwxdPq1oscw3GKIuhh2oEQhhwCpDAKWGDgkM3JyK8TNZSjUjZ2/4c68viqlazO7vtEtNI0e1i0xXPlwZKhkaNCVxu24CjJD+o5BPqfPbnRNFls7qC3lkSV7gy3FxC7BIpmESk7SQxQmNCflLfLkc5Fd3NHG9ldPBeTQwAMGjaRzjccZB356hhgnAxxXL+KVuF8DapJI9qrxQNG8wLn5AFdwAwAYlA4y3HAzkEk+a66qV17OVrnsVMLJU9VeyPOBbRaV4stY7adrs2sRURXG4ShD85ABDEYEigja2Odqhs4rXNzrEcMN3aak1nbNAI4mhwqiZyfM3kM3QGTlecrk5O5jQl1a1tLa7tEXfLZB4LZZhksjgiRcYKnEmGJJG5VwAMtVbw5cz3l41m1rOtjdtDbzugDbVVXCJypBySAFPUKF5BJr6hRUdGfPOopamrYRKllZ6lFJdrfRxyG2kWErG7x5dtzZwWYEZALYZmBwNoPo2jfELTZbeOPVIprS88tXZAm4EEcEYrzUxLpaGGGWLzZbq3tDbiRWjYKQAxB43MqqQy7uCTlRzW2LMRxGW1nthaD5JWNtHPGzl5GjIjbGG2HltuB9wHKsKqnVUdEEqTcOdks8v227tY7eMf6WiJATcks8hCHaN4BYYkQhjgkMpxgg06SzurS8e2uYpLe4Tgg8ZBGMg9wQeo4INc5qN89hE4WS/GsRs8vMa2xidlD+cZFcbzjHzlV+ZwcP92p7bV9Ug0qC4uNHvrWwRJPNnl3PLG+8b2UvuIjBOArA7SSPnYlipYV2tE4GlujrYnW51kTRQi3YMrJGDkLjHT246dulZHxIspLprGSS3WOb7OsQ2j7yR4TdgryTtUZDEjYwxggCtb6ykzCa3lMi2saZuvKYLLKD1wRwGBRhkbfmxuPFdFrPj3wjfNbxXNvqqm1UoYUhhZUY8sAd4J57kZPt0rzauHrwneEbmybaOa1Gytb7RRK9i8eomTJkijjCykAbgwBBXrkHHJH1IxX0GUqR5bDI+ld3D4y8Cr8ptdZHr+4i/wDjlW4vFvgeTGLPWGH/AFxi5/8AIlcyjjV/y6YSbkc14msVS2jsYr7+0Y5rWJ2eNFjjikBYgKqhcDacFWGRweDkVn6Jo0L2k1nL5NtcSENBctGdysHjIAbOB0bB+XHOSc8eh2+t+DJ9qC31aOPcT88SbVJHXhz1wB+VaMdx4FI5vJR7G3NbReLSSdOX3F8zcrniVzpF4Ltrho0WXzN52xoFBznAUDaB7AY9Kgj0K+urkLHbXF1LxmOPl2UYzgew9AcAE44r3KZfAUq7hqxQ991rJ/QGq8M/gixEpg8SRxeamyRTYSOHH907k6f4D0Faqtif+fT+5iitfe2PKJ9DtbDWYn02/jv4lBLZjEeztt6nf9R19Ac49L8MpZ2jaas1vKseUadliO/BVDt55OAe3+0O/EqXfwzitPLbXYoZySXlis5wWGwIP+WZI4HY4PcHAp1hr/hKK8mC+JYvIeMbZZYZEZhtfuy7ukZBwDyQOrAVzYmlXxCu6ctPJnrZVVpU6knJpaHU2M7No8K2McymWQKWaHZ838TKRjhvMA9AMYxkZriSLULWOC/hg8maNo3V0+QxjK/Mp4IwzA8YNRNrHhm68N/2rZ6n5thasI5JIoplcAEHIUjIwF5yCOBjAOKxU8e+BhCbM6iXtiio6PbzESAFj83y5zliSQRn6V59LAV3UbVN6eR7Es1wri0pp/ieOQ6LISoK7RnqR0roI7K6tJ4V0O5WYRx79z2yxsGXk5YDcAfLDcEnp1Irr11z4dAALqcx+lo/+FTWuu+AFl5ubp09RbNXpOeN/wCfUvuPkIya2OSiiuHje/ubOUQyuC6pFgRMsjNswvy8cHGcZIPGRjWa5nRhHZ3REcY2Lswhx15xgnr39B2ArsL7xp4Fu7QWo0+/ucAKWSBUG0ZwPvqRwcemP0zrYeEpGZbW01RIQSVzAhOCc4JL+9Pnryd3Rkvket9aUKaUXc8u0jVoRa2X9padDDoVrgXUltaJv8uWVw33fmJCt97cAMADoN02gwTW0Lpoyxail3Gk11GsJlu94VUlCtktG7O5AbbjqAWbAN/4oWVo+uXemTwS6dDpuoCwsImcyloyXKlmlLMAUUsADtyQQOcHgdT1hx5cBtRBfaaPJguYXKNKu7cpk5wzrlvmABO8EnK8/S8lp8rep4F7y5YnpsNhbvC8bEPALdzsj/1UIWNJVGyQhVSQQlhvIUhSVCEHPF6raaVbm4fStcvdFvZIWuGtkjlji4YbLbcD5iuoMgBcEEBTuG4kdLFrUNp4QvodN1GS7e5IaS5lukkmmd5TJsmQDJG0PkN8pLcqeo4m3hN/qLs2WeTc5AG3J5OcDpzzUW5alrnTBT9g5vYxJku5ZpJp7l5ppXaSSSSRmZ2YkliTySSSc0iwzDpIPzNWtUgu7aMneVU9HTawOehHUVVitNTUwvPfvGJE3kPbIAOvBO7Pb07jpXS/d+KSOdR5tiaJLlGysrA+zGvoPwb4bnk8R+GbFdO1W70WaCKRtTW/uI/tzvYyTvHgOBhZBgeWFKeWFfcW5+bLS51x0N2tq0sL702iHIQleDxyMblIzwTgHPIojvPEouPIDXYlVQ/l/ZwGCkZBxt6EHrXoYau6V05GFXDuZ9KDw9qUVlcXcFvrWoaxJ9jW48PtqFwp05ZvOZ2LBgy8RRkGQkRrKRIGIDVxfhCCTUfCtjfahr+t2Uk/imDTJrtrtlghtnjy7Ek43DrnoADmvJbnV9YtvOguUMMzhSrOhVlC5BIHQhj1JB5HGOlLaalezRFjMFKtjhV579x711vFyeqk/vIWEaXQ+nH8D3158VhotyPEOiaBaO8c102qODcKZTDA6mQ4DO207c/OFkKDooy9H8Oyab4A1zV/FGqavHd6Xr0mnSoNRnUlVg3bU25UOXIwzfLj3Iz4LDq2uBGe1ga9VMeaSrfINyqv3COpbpyfToa0M+Olhjs38JXMs807vGht5zLKCOFVA3zIojchgCT8+WIX5b+syf2n95LoW7HuPxJ0t9B+FWlXlnNf3K3+k2N5M00k0jQ3EwIZi5+VVIDYUHIIJIwefBpp7hiS88rH1Lk1c1NPiFFYGW88AanBBbxs00kun3iqqjksxLYAAI54AGPrXMz6lrq8toWwbivMEo5GOOW964MRCUpN33KpUt3GxrB5CDl2P4mmzyyrCxWRx9GNUNJudX1O6ZYLe3jCjDgqQq4xzycg/jj2rdOkat9kE0whETZ+6ASQM5I9sDOa5HQna9zRpx3ZDpqzPALieW68oKMDzSquwUk8+vHTuTjNSQ30rTyXEymWM4UR72Xaex+XGeh9ufpW/omH0+2xpst8tujAxtESigAMSuCMnBbPIA+XJHFdfZazbalq8mravpFpc+bFs2BFC5yMN1yTgEZJ6e2K8itXcJNM+pw+Hc4KSXQu+OPCt/4j8SDWf7Vs7aG+ubWRUSynkfcY3gUNtj5ViZF3MM/dGRgCuR8ZfDVtP0/S9Z/trS9mtSLFET5iqZiflQH5vl25O5se+D1vtrvw/wBShs9QW08XvDbuksKoYB80bOVzuDZxuYcY4/M9z4xl8F3vws8HtrD3620KRTWhhkTz4sqyoZMblC4wDjqegGCB78cPCrJt7pfqfPTlGLjK13+J83iS9hZY7KYxZzu2qCW6dcg/h9TV02l1LEm5gZFALMAM9eSM8A//AF6nvX06O9uTY+etqZW+z+cQZRHn5dxUY3YIzgAZqbT7zyLSdkI8zZgGRc4+Yf5/GuCUbySOyvJqjKQX2k3MOqSG4We2YShXiEexiDkgFjg8jpkcbRzTtYgttEVk1DJMoV8x/dY7flJUDjjtzgnqeMdh4UvVtYYrq/1qGyKyx+Q4u1iZ2UsxAUnds3EE5GOmc9KyPjFqekT3dtpelSRXb/ZlaZnjjckn7u2QfOWyD1PQrjI6byw1JS9m27/gefTU6kedNWOc06/sG0eDztYeMQ3KqyAZaQcZbbgE5AAJJxgMO4FaumS/aL20mhv/AC5JUKx27y7wu35TgEEiRgUIwDk4fHAxw6RSxO6pEvlZOCYw3bnkgntU6F2j27YyOuPKXA/T2rGWCTvZm3Iup3mpyabHcT/bLy2t5pNu4JP85Lbs5AUMMkg/N2JOR8pPqHwe8FeEda8F32p6rptjdhbsRxSrKxkBKruUfOQVGY8Z5yzeteKeA9OTU9clhkhtnAtXb95ECBhkHA9fm619E/BiXSPD/hXUdPvNR0/T2k1F5Via4jg3ApCNwViP7hGfqK7stwqhWXNK6/A4MxcoUXyPU4/xr4FWTxhe2/g3SNPNpDpokjtFMhZm3ruILMMyZORggYGOua5TTvh/rs8FrpWnxNdS3k3mwSLM7IoUOGw5ZUY5Qk9QuFxgk17i/iHQIfH63cmt6bJbnTli8w38YXPnofvluoGWxnJx3q/r3irw0ur+GDba/pgij1R5J9moIwWP7FdKpY7uF3sgz0yR3rvq4CEpuSlY86ni6sYpNX0PEdd+FXibT7Ge7vNbD2llbzTvJbTXBCJFES6I5QHLrnjGDg+xPLWXw81q91OC4SK2htjcCJfPnUsSCo7ks27sDkfK3ZTj6Z+IviXQLr4Y+JoLXW9Pnkk0e7RVS6ikZiYXCjIOTnI968R+HfxjtPDV4899Y2d6GiMLPIPnCHO4I3o3GQepC+lZV8HTjtJ/edGCxFWsnz6fI4BdPTTs2rXLJcRzMDKshk3FGMboWGMDIJABIxjg5DE0/TZDdyiMPd3V1JGELSO0hJ3ZC7icngHjkc9cV634dsfDmrS6lrk+nQSNePJcoy2O6Ni+XAGRwMt1HtR8QdP0G38LS3FjPL4duVm3R3ltutyNkTSKhOB95kCgf3ip7VwUcLGqpNN/M9Ko3TaT1ucn4AsrGHVBaXu6Jrd32zSyYAUgoMHGdwOWDZOOcg13Hhi1tvEVzcxzOFu1+fzhKEjdQTn5WKnPzAKf7oxgYrzewtbtrQ3NtIJY1VdxTJKjAwxI4AJOBzyeK7Dw1qF/o+gT6jpd0IbtrpYZphEHfYUJVck8AlWyAOcDJGBn5zGw95pbn2WAUlTi0+iOG1DRpLExWksyhZEwrxfejGSuMHG1sAMAQCAy5A6D2Hxxo91BBfafBpsUtpDoEMsMmJCytFcSJs67QAhJGB69gAPIrvUvtbNu+0j99ujD3G8KnJw2RlnLMzFsgZdsKM16z8aMj4geGrq4+0wafc2ZtPtMMBcGSfcgRwWUDHmhu59q+iwk5SU23fY5s6wdGkqfLFReu3lb/M8w+Gz6vYXLalpsljbzSzpbQS3ll5qO+QxUMCGQD5N2AeGXjpXLX8v9m6rc2l8lnAQWkme1B8pA7FwFwMlQuMd6s6d4yvNHsV0abTpJLTzTdEPkGTcANy5UqVOxSMhgSgPrnp/gdob6xfap4r1W1ieyt5wq7ohgzH5uFGANquvbA3AjG2pknGKXLseNOMKiavucbqF5pfieDQdI0OznOpebLbTnBInkkkAiKjPQjavQc5yO59r8WeBvhD4F8PXkGr3uq3+t3FiyWlptjZ0faE82MbMoucffcnCttywOfPPHWutY/G+01SSytmW0kiEcEyEAsvyiRtpBLDqCf7qgggAVg/FLWptW8bp4guIIYX1KJLkRgsdke3y1Vjjk4Q89+DxnA0jNVNzTD4OFJqPQ6XxNp+g6HYR6cLe1ga8hEt2El3SoqzSERZYMISQqn7p+UocHPNfxZ4T8PWmiw6jousSM95bxNaQkq2w4y7uxA3KcbcBV+beDjZzxUsl/qM1pp7Wcr20KRwRi3iwZBhVDbhnLHgbuR0AGOK7L40xJYeIrW1tpblbaO0UQ204XNsMtuRWRVR03l8FQB16jBOEm1UjFS3NKsqThaMdV+J0Hwt8KxKkOoS3FleTSWr/a0Vjtt/3rAM2U4ysZODg4Vj90jPbajomiWBgu9UW1Ni1yqvcx7WUxGQByrYPIUnj1rgv2fNE1LUNaTUft00emOZra5igaPzpNqLIFAljeMgnbkN1CsOpUH0yy8S+HrzxfNa6oXm0hrAmK11iztU33Bm+VZFFvG0ZYINquB1BAbepG8cVFT9mzzalKPLzX3Ofu9F0q2uGgnNjC6BXIk2AgHec/TEbn6K3oaqeJtQm0LW/D9rHp+neXqJS2d3jwUXIXco6EjfnBx0HvVfxJceCdH1w6Q+qaPeR20AheSe2VWK+TKqqSWIIBzgqSMTLz8pI8s1w/bNXmt9PtY7+S7mkljmS5jdhlt6qNjYUDCAZOSSQOCFreco20M4UnJ+8emeK0s9F8OXF7duls7pLHBKNOYBZgrYjL/MgkyuNpOR1IxVLV/DWveH57HQb3T/8AhJjLALoTm7MUo81mVEJ34bhRjoecDO3nk/E/g3X9B1nw1qHiDUrDULC9uFvEnjvI7mJ1WQGUOSSM/MSc8HJGM5rs/GOtw634stX0bVYZp7WxYs1tcbwyCadRF8hIH+sRuQeEXGM1E6n2oqxpSopPllqZek+NvGYElhpXhfT4Ykk8pYLhyZItuEKNlhyCCMkD/G58ZtSTWvAdtbmOOK6lljupIdwJixFyowozgsQWJHbAOeLmlWdtYeCp/Eks5im+3+ZqTzJM5dJQCZA0YIVSzJGMjO7fy3Crz2ozWWr6HafZ0iuJPs0W6OCQyGAtjdv5JRRzwQMZAzxzzVsXWhLlWqZ2UMFh6ms7om8EavHaaXFYX1sl3YzCF5YGnMSMVxncUwx6DHzYB5weMacupvpWuXdxojDT0/1SKrB9qcZBMmTkkA46jpXI6aktjDJE8ioyMUXldxCscHB5U/KPQ9vUV00+oeHdU0SysRaR6Te2agG48zzI5wclyQAWDFiCByANw44B82rBzbuezh+WlGPKr6K/+djc/sfwCulw6kvhcQI9t9oLNqM7hF79W9q634s6rpmja54bsW8NafeahdQwJDf39vGIYIhneUc4zKu1SqkAAsMYJwfLNP8A7AvraG0sbm+uZpR9lkCYC5LbNpdQFaPv1PbJGa6T4gXa61NpZmilgexvLeIRXMKRSy2+IssC33T5gbAVQSp9G5+orV6MUlSgot22d7/5Hy0J167/AH83JK9rnk/jbVtJu40FkJNySFSvkLGuwcA8Hk9OozgDnjFcTc6ncSF4EkeKEqUZEO0ONysd2MbuVU85+6voKt3b5DDHSscj9/u4wSa8yE3Jts7qsFCKSLGnXRtbu3nWaSNo5PvqNxUZ54JAPHY8HpX1p8Hvhf4V1bRtF1PxnFPeawLFAIBcPDHAu4vHwu1/MCkBsnG7OOgNfMXgTQ9P1vVZ4tUvGtLW2tGuZHUgMcMq4GQefm6YJJ4HJr6y+D/ihbTw7by39u01w+6QmVgreWTiHoCBmMISOTknk54cmnJIVO8Y3TOw8eaBoqXOgaRo2mwWF1d3kbB7MPbi0tYCss0mIxt6IkQJAAaZOex8P/aMs9R8RfE2KG0gDWllZQ2iMtyrSHJZ+VkcEtmT1ORjnORXsY8QQz6/c6zLCtzcvAlrbxGYottCDuIXAOXd+WbgERxDHyZPjHxVtb+01Gxv7uWxnuLzKF4opImby9ihnIcl2ww+bGePoK6a2HouKrJWa+St59DmjUqSnyN3X6lrwL4huPAfhW40OdJZ7NtQgvWuIfmjSRZA3Axgu4gTCswA2N1GTWN4wuZfFF1d3Ekki3MsqIZztYCPAjRXZgo3YAAAIbI65IJpz6ibYxvaC0UNZrDIk6SAx4OW2khh82FBLDcQOo5znareWlvqX2W3laSycedHPOFbazEk79oj4+aTKfd4GDgmvGUYTn7RO78n+hVWjVStJaHK+L9DvHeeazuZLmKGaXdAxXZGOMmI7suvOOgPGcdceo/AHwvYW3huTXymzUrqIqr3ilIoTHKG+UlcfNsXLsGUZAByGA534aPf6pqc0CaRa3ilTDK+pWe8lWOUxzhnG0ZfHCg56AV614qhbQdG0TQtHEUDOZJG/cNzGqlQMjA2szOSM9Qp+vRUlJtUlu/y/wCHOrC0nGLqS2Rg/H7xHZ2/wos7ZYYry5vrr/QrpolYLAic7vMDYkBcqQp/2gVB8sc78KfBdzf6lBLLLYWjapCRbyMkIMyK+ZFVB85Ysv3vlVVjcnOVFdBq2p22u+F7XwzqWjWFzYwlbjiVixlYbdikBSu1nbJPXjG4ZNZFzrstvrmm6reXF5D/AGOh+yiJVWC3hMflOWVUZidqhRgHknICkkdE0+T3hxiuZ2PVvjj4d/tb4NXGnaCWtGtYYmmQx72mtY3DMrMWGMFRJnrlGGPmNfLGjJrvhjU2Gjao1u8wUuywBtwUkjIYnoea+jJviz4U1bStQtrXXLlgjEGUW+ySZQ6OFjh3DcrjehLFD22kGvA/D1jL4q8UzwPqMdpAowrPg4LDAAUnrjJ/Cta9Wm4xlDa39aHNRpTc3GWuuhoeBNUudP1y31C9ukDvPKZ5JIN6nLsSSo7E+nTPfpVi/g8i4hkmlsbRbmDzUzdRqpwdrdTgHcD8vBHpirGr6I+keI10Jp4bthLDHLJC5ZZt4Vw4wMgFXBxycg+1YnjvRJrrUlsprmOyWItLEXBZJEbADIFHQ7Qc4A6Y4xXB7O82mesqqp01KO9krHUaPqmox6xoltrotL0prC3FtcRzgsgMsLHdGpIG5SByATtzk4Oeu8U2UM/xe1+wuGeCSNbS4gYAptkjjg+dW5J/iyAOiDnPI4TQPMn8R2d1JNHBDJcwu8ZcEvtdcuzADJwDyeeAM4r2rxl4f8NJ46bxLc3t0mqyyqkdvDsxITCY18z5S4UglflIBymcYyOqhGKpuystDzOTlaXU+Q7hJJ3dYonkkckhIlLY/LsKamh6zcyAQ6ZcYRCTlNucdeuOefqa9lsfDdpZw+Xb7Y144CdcD9atJpYU/LMR6/LXnPGSj8MT0HhlP4meZeAvCq3euXFvrEht4kgBVkzvBLj5gCMcAEHP94da920FczMSMAcH3rn0sbgblS8wMj5WjBXj2z9avad4o0mNRIvmt55m8vAXDCLO9gd2MHHHTqOnOOjD4nnknLQwq0FBNRPQLGGFCJgzBm4K9ht5z+v6CvNvjrdarJ4h02zgsLe5so7fcCMGVGZm3ttB3bQkandgKMHk9rtp8SNH/dQWdre3U043KXURxREhBtd8kA5ZQdu7Gfwqf4ha3e32ma14da2tRbQXsWXdnSQBFglBC7SGbcWUncuABjPNd+LxqjSUI6tv8O5yUcMnUcm7W/M878seaJMfMbMgn1yF/wAK5rx/4kRrOx0uzWSO4tLQRzyHA5Ls/wAuD/dccnHf611UfzG3I7xFPyB/wrzvW4oJPFWoQ3Cv88KKhUgbW2pg89R14/lXJQd5HRXVonunwRhOnaZqN5q9lPpt35rIn21DExQ4YthsYXORn8O1cl8cvGN9q+ujRoi4srAkpgkMSyRgg56DKA4xwWb2x2viG4vPEjDUJdDvYFnjiJRIldldE3Mrbf7odSD1+bpnIrita8Fy6pq0+s3Wr6dpFrfTtJHHdyf6TNnkmOMcOdxxt3Aj8RnGnKC9+ejf6f1c6KilyKMdbf1/wDhtHv72zlE9u8kMikfdb0II46EZHQ8V39ncW2sadcy3U8S+dgFGUKuCqlhg9t2/865LxP4Q1XwtcWP22WO4tb4s1rLG3LBWxhlPKtgqccjnAJKsB6J8NvDM8uh3s91eWYvWjVrWFmZiMqxTeOCPuNnbuPynggZrd1adOHOndMyp0qlWXJszmPA2pXHhp/FGj6fYSXi6rZlTMswjEMKq4zyMsN0gGOpwPpVj4K6J4mtryPX7XRrWWCSaOS3uZXi3KY3OcKxyQehP863vBmp/aJ7xNbt49PiaMq80iMIgrEAEscg45yQelaf2ezs9OsYLARz2K2wSHbBgTAMMsTn5gx3EsoGTg8g1yyxLm3HorHqYTAQc47u99rL8yh4l8I+MLvxpq93Dplv/AGZmOO2kS6iRXW3jWJHCFgVV1Xdt6rnHbJ4rxNdXGkYa+EscyP5bJ5mzORkEYByMDII4IOQcGvR7SK2h0wn7DtkViqhYvM3KccFmYsCuOG+Yncc9jUfjSy8NaroNjp+tT60DJK9yFsIVlQeW8kQHzONpAByAADkdwaXNzzTZ0YrCLCUG1e/nb9Dnfg7pov8AWbS/D/u3h8xP3m09VzjkEkc9OeM9s16d4iczeJ7e6YpKzziKTgqCVcgYHBbbtX2BTvXi37M3iC3i8W2ug6hIFErMLMswA3twU5I69R75HJIFfQV5os8WpTSmJwovZpdxVlVlLA4z3wQPbgda0rzcFbzPGw0FUd/I4BIS6gjB+gqRbWY5OAB9K7i18OQADI3cgkYwMVr2/hyIcFMDHHbH+fWvmZ5jFHuLBHi3i2W90+wkFtIEmchEIHzKW4z6EjlsdwDXHahcztAtsCsUCQfZ40ByyqeCMk+gX8q+oL/whpmoQfZ7uMFGHzgDBx9e38+/Fcr/AMKY0AXksrX995RIdYyqApxglmI56egxiurDZzQjH39GcuIy2rKXu7Hjvw28GnUvDF5aziLz7a7lubOJGYSTyC0k2Rqc8DzMMc9kPtnpPHmopLbarrsYLwXEsMzbAeVMcKZ59xjk/lXrWk/DrRtKIa1uL9OS+GdOSVIyfl9C3pxmlXwN4ci0qDTJNLivbaKNUK3aCUBR0yCMZHrjPFZVM3pynzavX/h/yHTyuaVrnzHBr9ov2ctFOSjuXwB0OenPvUOl6DL4j8QLdWCI4d4y2+PIDAhRG2eOduc8qARkg19L3vgrwhaW0zyeHNFhghjMjuNOj+RAMk4C56ZqrqGj+ENEa5sdc1GXwrCqlksdLswtxcM0UbCQsqsoA3tHgjBZT8xC4HoYfMvba0oW829DKrgVTsqkr+SWph61/alxp+m6VatbiO3he1tlWM/aHkdPmKIGIySrNtBOATwcV4X8VWu4/F8lrcaP/ZflxhEtwJgfUlfMZj1JPBABzgDpXv8Aqfiv4VXNlZWl3oPifVFtYxHGbzUZMoMY+UCYgcAcAAcVnS6n8DJtpl8H64rDkD7S7AH8Z67oYr3rya/rTsc1TD3ilGLX9epw3g3QbzVvBFoJxdalcWhIiRj+6tkG5wi8bd/YKSWP3V64NM6pqNvHMnmNJlh5Qclin+7+Jr0yLVvgaEKnwfrjZGM+a2f/AEfU1w3ww8TwX8t94j8TWlzMirE+rwrd+XtyVClVaTaCSSA6ls4JoU4PSVn8/wDOxnUo1N4XXy/yucr4d0Q3GmodR1bUl1C6iE8MRuo402FuG2v/AKxCoPzKchgVKkjnYu/t3+l6cpsmS4A+03Mu0Roq8szOeSmFxgcnIGOTWHr66F4WvtQ8MT3sOu2AiZIZYmWSMbhuWWNgDtkU4z1GQVO5Sc5A123TTjZI7SoIEhUm35AXGOPu8YHOOwrpo1sPTUo66prY56ccR1a8tfzNPw3HZ6ve7Wv9J0DTFLE3U8MIKqFJUFGOGYkBcAnk16l8S9T0u28D6Clhc+HdbksxHaC5up4FQKIgDhfNUAsUB68YOBjmvIrPw/d63JpFvpE/l6dLBcrqEnkDekyjMZO/dwS6AquwsqvzzlY/jXonh7wtpGmSJp8T3txJtyirA0qqvzMQihepXICgfNxiuXDwoU5JR3f9am+K+sVE5Ne6v60PnyGSSGVJoZHjkRgyOpwVI5BB7GvePh78WbvxFNZaH4m1DbPJPEjTSN8lz8+csT90njI4U7VOMivBKK7a9JVYODdjnwmKlhaqqJJ+p+iEUkUaho0Gehz0z1OO1XIpkzgMAD1Of8/59K+I/A3xc8X+Fo47VbpdSsIxhba8y2wf7LA7h7DJA9K9b0H9onwxOFOuaNrFk4x/x6tHOgOeT8xQ/ofwr4uvkOKg/d95H0lLOMPNe9oz6GW4UYCDC9z1qOS5BdQeg5Cj1968RT4/+AxEjOurBgV3KluGIGBkgk8kHOOnanT/AB6+HpYiObXAHXl/sq5U59N3TH8jyc8Yf2Ni/wCQ1/tLDfzHs0t9tkKoBk/xZyap3t/FbxNKW2KgLkjvxz+X88fSvHn+PHgX76TatkjlTaD9fm5PWqGsfG3wVPZslvPqLOxDFGsgFPfH3vUA5/xNa08nxF1zRYPMsPbSSPXLK4OoanBaNez2dj4l0O+sLQyqHxdedsclQf4Y1DDcQDyAckisRvGER8O+Gm8M+BZvE+tDTIIm1IWjzR2phJUAEKSsm8MeNvBU7iNuPKZPjL4RFxBM1vqV5Pa3i39tJNCqrDMqqMrtO7ny04JIyoOKntPj1pdkZF0+KW1S7upJboxIU++Fy4C/ebJcbflHQ5ySB9LQpOlBQjBq3kv18zwq1aNSbk5J/P1/S33HtFp4j+NUyfuvB2iHPzbGcIVB/vbrjOcfj9KZd+JfjZArF/BejDH9wGT9FnJrxY/tCSqhWFpY8M5G28nHB6duMDt6806f9oi4VlFu9wylMu0l1MCrkYIAwcgepwTnoK3Xtf734GN6faP4nqkHxH+LFtcKl74EaYZ5+z6bcgY/3tzAVJrfj3VbkC71b4L3F08Q/wBbeW7OFH1aDgfjXltr+0pfxNs3Mseeocuen+1HWvB+0tZLOr3M95cQhCGha1Rgx9ein9R+OeLUpvR833Jkt01qlH72iv8AETWvD2q6Q0vh/wAPHSY9AsWuLy3uAVupN80SEZJO5QZFK5bOC/AyufP/AAv4hXxFrVvo2k6bNJfTlhFGxVd21Sx5JwOFJ5PatLxV8YrXxJDqGnancv8A2ZfxDzYbWzaE+YAVAyZGIUfK5JLEmNRjBNee/DHxDYeGvGdtrN7NciK3Vx+4XJfcpXGDjjBJ+oFRUw6lByS963p6aFxrJSSb0+/11Pqj4eaPLYWPl3qLBdNKzSRbw2w9OoJHQA/p2ryz9rDUYpNe0TSkRt1tayTlyeCJGCgfh5R/MUlh8btFj1OC6mW7RXd2uEWPdgMCRtORnnHOBXlnxH8XJ4p8YXurr5ywOQlujnJWNQAPpnlserH61ngqE4zUpqxeMrQcOWDucdRRRXpnmBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAf//Z" alt="Interior of CDC 1028 Cafe, a plant-covered coffee shop with a seating area"></div>
+        <div class="side">
+          <div class="status"><span class="dot"></span>Open now</div>
+          <p class="closes">Closes 10:00 PM</p>
+          <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6L12 2Z"/></svg>4.0</div>
+          <p class="price">&#8369;500&ndash;&#8369;1,000</p>
+          <a class="directions" href="https://www.google.com/maps/search/?api=1&query=39C6%2BWRH%2C%20San%20Pablo%20City%2C%20Laguna" target="_blank" rel="noopener">Get directions</a>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="milktea coffee" data-name="My Girl Milk Tea and Coffee San Pablo" data-search="my girl milk tea and coffee san pablo wintermelon blueberry bbd caramel milk tea milktea garden peach orange juice lemon pomelo cranberry blueberry yogurt bubble black tea brewed coffee green tea milk tea">
+        <div class="mono" style="background:var(--gold)">M</div>
+        <div class="body">
+          <h3>My Girl Milk Tea and Coffee San Pablo</h3>
+          <p class="desc">A casual spot for studying or catching up with friends, built around milk teas, fruit blends, and coffee.</p>
+          <div class="addr">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span><a href="https://www.google.com/maps/search/?api=1&query=206%20Marciano%20Brion%20St%2C%20San%20Pablo%20City%2C%204000%20Laguna" target="_blank" rel="noopener">206 Marciano Brion St, San Pablo City, 4000 Laguna</a></span>
+          </div>
+          <div class="menu-groups">
+            <div class="menu-group"><span class="label">Milk teas</span><span class="items">Wintermelon Milk Tea, Blueberry BBD, Caramel Milk Tea, MilkTea Garden</span></div>
+            <div class="menu-group"><span class="label">Juices &amp; teas</span><span class="items">Peach Orange Juice, Lemon Pomelo Juice, Cranberry &amp; Blueberry Yogurt</span></div>
+            <div class="menu-group"><span class="label">Coffee &amp; tea</span><span class="items">Bubble Black Tea, Brewed Coffee, Green Tea Milk Tea</span></div>
+          </div>
+        </div>
+        <div class="side">
+          <div class="status"><span class="dot"></span>Open now</div>
+          <p class="closes">Closes 10:00 PM</p>
+          <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6L12 2Z"/></svg>4.9</div>
+          <p class="price">&#8369;1&ndash;&#8369;500</p>
+          <a class="directions" href="https://www.google.com/maps/search/?api=1&query=206%20Marciano%20Brion%20St%2C%20San%20Pablo%20City%2C%204000%20Laguna" target="_blank" rel="noopener">Get directions</a>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="coffee food" data-name="THIRD HOUR CAFE" data-search="third hour cafe seasalt foam latte midnight biscoff third hour coffee ube espresso latte honey cinnamon latte potato twisters mojos wedges waffle fish chips pork tapa burnt basque cheesecake red velvet crinkles smores cookies">
+        <div class="mono" style="background:var(--moss)">T</div>
+        <div class="body">
+          <h3>THIRD HOUR CAFE</h3>
+          <p class="desc">Cozy and trendy, known for quality espresso, homemade specialty foams, and a strong potato snack lineup.</p>
+          <div class="addr">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span><a href="https://www.google.com/maps/search/?api=1&query=18%20Apolinario%20Mabini%20St%2C%20San%20Pablo%20City%2C%204000%20Laguna" target="_blank" rel="noopener">18 Apolinario Mabini St, San Pablo City, 4000 Laguna</a></span>
+          </div>
+          <div class="menu-groups">
+            <div class="menu-group"><span class="label">Signature coffee</span><span class="items">Seasalt Foam Latte, Midnight Seasalt Latte, Biscoff Foam Latte, Third Hour Coffee, Ube Espresso Latte, Honey Cinnamon Latte</span></div>
+            <div class="menu-group"><span class="label">Craveables</span><span class="items">Potato Twisters, Mojos, Potato Wedges, Waffle Wedges, Fish and Chips, Pork Tapa</span></div>
+            <div class="menu-group"><span class="label">Desserts</span><span class="items">Burnt Basque Cheesecake, Biscoff Cheesecake, Red Velvet Crinkles, S'mores Cookies</span></div>
+          </div>
+        </div>
+        <div class="side">
+          <div class="status"><span class="dot"></span>Open now</div>
+          <p class="closes">Closes 10:00 PM</p>
+          <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6L12 2Z"/></svg>4.9</div>
+          <p class="price">&#8369;1&ndash;&#8369;500</p>
+          <a class="directions" href="https://www.google.com/maps/search/?api=1&query=18%20Apolinario%20Mabini%20St%2C%20San%20Pablo%20City%2C%204000%20Laguna" target="_blank" rel="noopener">Get directions</a>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="coffee" data-name="SLOW BREW" data-search="slow brew v60 pour over slow brewed coffee espresso drinks classic brewed coffee">
+        <div class="mono" style="background:var(--coffee-deep)">S</div>
+        <div class="body">
+          <h3>SLOW BREW</h3>
+          <p class="desc">A neighborhood coffee spot for hand-crafted, unhurried coffee in a casual setting.</p>
+          <div class="addr">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span><a href="https://www.google.com/maps/search/?api=1&query=likod%20nang%20Scie%20High%2C%20San%20Jose%2C%20Aranville%2C%20San%20Pablo%20City%2C%204000%20Laguna" target="_blank" rel="noopener">Likod ng Scie High, Aranville, San Pablo City, 4000 Laguna</a></span>
+          </div>
+          <div class="menu-groups">
+            <div class="menu-group"><span class="label">Coffee specialties</span><span class="items">V60 pour-over / slow brewed coffee, espresso drinks, classic brewed coffee</span></div>
+          </div>
+        </div>
+        <div class="side">
+          <div class="status"><span class="dot"></span>Open now</div>
+          <p class="closes">Closes 9:00 PM</p>
+          <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6L12 2Z"/></svg>5.0</div>
+          <a class="directions" href="https://www.google.com/maps/search/?api=1&query=likod%20nang%20Scie%20High%2C%20San%20Jose%2C%20Aranville%2C%20San%20Pablo%20City%2C%204000%20Laguna" target="_blank" rel="noopener">Get directions</a>
+        </div>
+      </article>
+
+      <article class="entry" data-tags="coffee food" data-name="Cafe Mealia" data-search="cafe mealia espresso based coffees specialty teas cold brews breakfast brunch platters light snacks small plates daily desserts">
+        <div class="mono" style="background:var(--gold)">M</div>
+        <div class="body">
+          <h3>Cafe Mealia</h3>
+          <p class="desc">Cozy and relaxed along Dagatan Boulevard &mdash; a reliable pick for morning coffee, light meals, or a study session.</p>
+          <div class="addr">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span><a href="https://www.google.com/maps/search/?api=1&query=75%20Dagatan%20Blvd%2C%20San%20Lucas%201%2C%20San%20Pablo%20City%2C%20Laguna" target="_blank" rel="noopener">75 Dagatan Blvd, San Lucas 1, San Pablo City, Laguna</a></span>
+          </div>
+          <div class="menu-groups">
+            <div class="menu-group"><span class="label">Beverages</span><span class="items">Espresso-based coffees, specialty teas, cold brews</span></div>
+            <div class="menu-group"><span class="label">Food</span><span class="items">Breakfast &amp; brunch platters, light snacks, small plates, daily desserts</span></div>
+          </div>
+        </div>
+        <div class="side">
+          <div class="status"><span class="dot"></span>Open now</div>
+          <p class="closes">Closes 8:30 PM</p>
+          <div class="rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6L12 2Z"/></svg>4.8</div>
+          <p class="price">&#8369;1&ndash;&#8369;500</p>
+          <a class="directions" href="https://www.google.com/maps/search/?api=1&query=75%20Dagatan%20Blvd%2C%20San%20Lucas%201%2C%20San%20Pablo%20City%2C%20Laguna" target="_blank" rel="noopener">Get directions</a>
+        </div>
+      </article>
+
+    </div>
+    <p class="empty" id="empty">No cafe matches that search. Try a different drink or name.</p>
+  </section>
+
+  <section class="wrap" id="about" style="padding-bottom:60px;">
+    <h2 style="font-size:1.5rem; margin-bottom:10px;">About this guide</h2>
+    <p style="color:var(--ink-soft); max-width:62ch;">This is a running list of cafes in San Pablo City, Laguna — built for anyone visiting or new in town and looking for somewhere good to sit down. Details come from each cafe's own listings; hours and prices can shift, so it's worth a quick call ahead for anything time-sensitive.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>San Pablo Cafe Guide &middot; Laguna, Philippines</span>
+    <span>Made for people passing through the City of Seven Lakes</span>
+  </div>
+</footer>
+
+<script>
+  const search = document.getElementById('search');
+  const chips = document.querySelectorAll('.chip');
+  const entries = Array.from(document.querySelectorAll('.entry'));
+  const empty = document.getElementById('empty');
+  const count = document.getElementById('count');
+  let activeFilter = 'all';
+
+  function applyFilters(){
+    const q = search.value.trim().toLowerCase();
+    let visible = 0;
+    entries.forEach(entry => {
+      const tags = entry.dataset.tags.split(' ');
+      const matchesFilter = activeFilter === 'all' || tags.includes(activeFilter);
+      const matchesSearch = !q || entry.dataset.search.includes(q);
+      const show = matchesFilter && matchesSearch;
+      entry.style.display = show ? '' : 'none';
+      if(show) visible++;
+    });
+    empty.classList.toggle('show', visible === 0);
+    count.textContent = visible + (visible === 1 ? ' cafe' : ' cafes') + ' in San Pablo';
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.setAttribute('aria-pressed', 'false'));
+      chip.setAttribute('aria-pressed', 'true');
+      activeFilter = chip.dataset.filter;
+      applyFilters();
+    });
+  });
+
+  search.addEventListener('input', applyFilters);
+  applyFilters();
+</script>
+
+</body>
+</html>
